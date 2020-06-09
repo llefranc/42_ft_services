@@ -1,0 +1,143 @@
+TO DO
+>>> Le dashboard web de Kubernetes. Celui-ci est utile pour gérer votre cluster.
+>>> L’objet Ingress Controller qui gère l’accès externe aux services dans un cluster.
+C’est lui qui va rediriger vers votre Container Nginx.
+>>> Un serveur Nginx ouvert sur les ports 80 et 443.
+• Un serveur FTPS ouvert sur le port 21.
+• Un wordpress ouvert sur le port 5050, fonctionnant avec une base de donnée
+Mysql. Les deux devront être dans deux containers distincts. Le wordpress devra
+comporter plusieurs utilisateurs et un administrateur.
+• Phpmyadmin, tournant sur le port 5000 et relié a la base de donnée MySQL.
+• Un grafana, accessible sur le port 3000, fonctionnant avec une base de donnée
+influxDB. Celui-ci devra vous permettre de monitorer tous vos containers. Les
+deux devront aussi être dans deux containers distincts. Vous devrez créer un dashboard par container.
+• En cas de crash ou d’arrêt d’un des deux containers de base de données, vous
+devrez vous assurer que celles-ci puissent persister et ne soient pas perdu. En cas
+de suppression, les volumes où la data est sauvegardée doivent persister.
+• Vous devrez vous assurer de pouvoir accéder a votre Nginx en connexion SSH (semble OK)
+• Chacun de vos containers devra pouvoir redémarrer automatiquement en cas de
+crash ou d’arrêt
+
+> FONCTIONNEMENT GENERAL 
+
+On a dans chaque nod (= une machine), des pods qui contiennent un container (de preference juste un)
+les podes ont une adresse ip propre et qui s'applique au container mais qui change a chaque fois
+que le pod est recréé.
+
+Les pods sont liés à des services qui eux ont une adresse ip permanente. L'ingress fait le lien avec
+les demandes (genre l'url etc) et reroute sur les services correspondants. Ingress est dupliqué en
+pod sur chaque nod et fait du load balancing. Il adresse au bon service qui fera du load balancing
+en adressant au bon replica.
+
+On peut avoir plusieurs versions d'un pod (= le nombre de replica), mais un seul service pour x replica.
+Le service fait aussi du load balancing en adressant les différentes requetes aux pods ayant la moins
+grosse charge de travail.
+
+On a aussi le ConfigMap et le Secret qui contiennent les varaibles d'environnement. ConfigMap c'est tout
+ce qui est sans risque (ex : noms de domaine), secret c'est tout ce qui est vulnerable (mdp et logins par ex).
+
+Les podes sont reliés à des volumes qui eux font le lien avec le stockage (DD, cloud...) K8s ne s'occupent
+pas du stockage ça ne répond pas de lui
+
+On a aussi le deployement (stateless pods) et le statefulset (statefull pods) qui permettent de gerer l'ensemble
+des replicas etc. On travaille avec ces 2 modules et on leur indique le nb de replicas que l'on attend d'un certain
+pods. On peut aussi leur dire de scale up ou down les pods. C'est une sorte de couche d'abstraction au dessus des pods.
+La diff avec statefulset et qu'il gere en plus le cas des bdd etc pour coordonner les pods qui
+access la bdd et qu'ils ecrivent les uns à la suite des autres pour qu'il n'y ait pas d'inconsistence dans la base de
+données.
+
+> COMPOSANTS TECHNIQUES
+NOD : on doit avoir 3 processus :
+tech container (ex : docker), kubelet qui permet de run les pods en utilisant la tech container installée,
+et kube-proxy qui permet de faire de l'adressage intelligent et du load balancing (il est donc utilisé
+dans les services)
+
+MASTER : 4 processus :
+API server qui est l'interface de programmation et permet au client d'interargir avec le master (via dashboard
+ou kubectl). Le scheduler va analyser les nodes et va faire une requete au kubelet du nod le moins chargé pour que
+celui-ci run le pod. Le scheduler fait donc juste le choix du nod, ce n'est pas lui qui run le pod c'est le kubelet.
+Controller manager lui check le statut du cluster et si un node ou pode meurt, il va alors tout faire pour revenir à l'état
+normal du cluster en demandant au scheduler de rescheduler tous les podes morts. ETCD est le dernier process et est
+le cerveau du cluster : c'est une bdd contenant toutes les infos sur les podes nodes etc. C'est sur lui que s'appuie 
+les 3 autres process pour remplir leur role. Attention completement differents des bdd dans les pods pour les applis.
+
+-------------------------------- COMMANDES MINIKUBE --------------------------------------------
+
+# pour lancer minikube et creer un noeud virtuel a la fois master et worker
+minikube start
+
+# pour kill le cluster et supprimer tout
+minikube delete
+
+# etat du cluster kubernetes
+minikube status
+
+# permet d'avoir la liste des nodes 
+kubectl get nodes
+
+# permet de se connecter au noeud minikube (sur la vm)
+minikube ssh
+
+# ouvre une page internet avec le panneau de controle du cluster
+minikube dashboard
+
+# Arrêter un cluster Kubernetes en cours d'exécution
+minikube stop 
+
+# donner une adresse ip a un service pour pouvoir y accéder
+minikube service "service-name"
+
+# active ingress dans minikube
+minikube addons enable ingress
+
+-------------------------------- COMMANDES KUBECTL --------------------------------------------
+# Permet d'avoir le status d'un type d'objet
+kubectl get []
+
+# permet de creer un type d'objet
+kubectl create
+
+# edit un objet
+kubectl edit
+
+# rentrer dans le terminal d'un pod
+kubectl exec -it [POD NAME] -- bin/bash
+
+# ouvrir un port
+$ kubectl run my-app --image=gcr.io/some-repo/my-app:v1 --port=3000
+
+# link le port d'un pod sur le port de l'ordi pour test sur le localhost
+kubectl port-forward <your-pod-name> <local-port>:<your-app-port>
+
+-------------------------------- RUN DES DOCKERFILE DANS K8S --------------------------------------------
+https://stackoverflow.com/questions/40144138/pull-a-local-image-to-run-a-pod-in-kubernetes
+
+-------------------------------- RAJOUTER UN DNS  --------------------------------------------
+editer le fichier : /etc/hosts en sudo
+
+-------------------------------- PROPRE A ALPINE --------------------------------------------
+-> $ docker exec -it <container name> /bin/sh
+pour rentrer dans le terminal d'alpine (fonctionne avec sh et non bash)
+
+-------------------------------- NGINX --------------------------------------------
+# pour pouvoir utiliser la commande nginx
+mkdir -p /run/nginx
+
+# pour pouvoir utiliser un gestionnaire de service
+r
+openrc -s nginx start
+# POUR LE DOCKERFILE >>
+VOLUME [ “/sys/fs/cgroup” ]
+>>> apparemment openrc inutile pour l'instant
+
+# il faut demarrer nginx en l'appelant
+nginx
+>> bug parfois meme si bien appelé dans le script pourtant. Il faut desfois le relancer en entrant dans
+le container
+
+-------------------------------- ORDRE BUILD SETUP.SH --------------------------------------------
+minikube start 
+connecter docker a env minikube
+peut etre lancer une fois le dashboard avec minikube pour creer le namespace ?
+apply Phpmyadmin (avant nginx sinon nginx bug car un service manque)
+apply nginx
