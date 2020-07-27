@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 # install nginx and openssl for https connexion
-RUN apk update && apk add nginx openssl vim
+RUN apk update && apk add nginx openssl vim openssh
 
 # needed to launch nginx
 RUN mkdir -p /run/nginx

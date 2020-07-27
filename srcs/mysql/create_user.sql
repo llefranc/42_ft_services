@@ -13,6 +13,6 @@ GRANT ALL PRIVILEGES ON *.* TO 'user42'@'localhost' WITH GRANT OPTION;
 --
 -- Database : `42_ft_server`
 --
-CREATE DATABASE IF NOT EXISTS `42_ft_server`
+CREATE DATABASE IF NOT EXISTS `42_ft_services`
   DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 USE 42_ft_server;

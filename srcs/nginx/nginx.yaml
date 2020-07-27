@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: nginx
-  replicas: 2 # tells deployment to run 2 pods matching the template
+  replicas: 1 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
@@ -19,6 +19,7 @@ spec:
         ports:
         - containerPort: 80
         - containerPort: 443
+        - containerPort: 22
 ---
 apiVersion: v1
 kind: Service
@@ -27,12 +28,17 @@ metadata:
 spec:
   selector:
     app: nginx
+  type: LoadBalancer
   ports:
     - name: http
       port: 80
       targetPort: 80
       protocol: TCP
-    - name: https # useless in theory
+    - name: https
       port: 443
       targetPort: 443
+      protocol: TCP
+    - name: ssh
+      port: 22
+      targetPort: 22
       protocol: TCP

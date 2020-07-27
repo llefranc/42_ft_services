@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v1 # creating a volume for mysql
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pv-claim

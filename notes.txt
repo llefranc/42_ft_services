@@ -1,8 +1,8 @@
 TO DO
 >>> Le dashboard web de Kubernetes. Celui-ci est utile pour gérer votre cluster.
->>> L’objet Ingress Controller qui gère l’accès externe aux services dans un cluster.
-C’est lui qui va rediriger vers votre Container Nginx.
->>> Un serveur Nginx ouvert sur les ports 80 et 443.
+>>> L’objet metallb qui gère l’accès externe aux services dans un cluster.
+>>> Un serveur Nginx ouvert sur les ports 80
+>>> Nginx redirige automatiquement tous les 80 sur le 443 en ssl
 • Un serveur FTPS ouvert sur le port 21.
 • Un wordpress ouvert sur le port 5050, fonctionnant avec une base de donnée
 Mysql. Les deux devront être dans deux containers distincts. Le wordpress devra
@@ -14,7 +14,7 @@ deux devront aussi être dans deux containers distincts. Vous devrez créer un d
 • En cas de crash ou d’arrêt d’un des deux containers de base de données, vous
 devrez vous assurer que celles-ci puissent persister et ne soient pas perdu. En cas
 de suppression, les volumes où la data est sauvegardée doivent persister.
-• Vous devrez vous assurer de pouvoir accéder a votre Nginx en connexion SSH (semble OK)
+>>> Vous devrez vous assurer de pouvoir accéder a votre Nginx en connexion SSH
 • Chacun de vos containers devra pouvoir redémarrer automatiquement en cas de
 crash ou d’arrêt
 
@@ -119,6 +119,21 @@ editer le fichier : /etc/hosts en sudo
 -> $ docker exec -it <container name> /bin/sh
 pour rentrer dans le terminal d'alpine (fonctionne avec sh et non bash)
 
+
+-------------------------------- ORDRE BUILD SETUP.SH --------------------------------------------
+minikube start 
+connecter docker a env minikube
+peut etre lancer une fois le dashboard avec minikube pour creer le namespace ?
+apply Phpmyadmin (avant nginx sinon nginx bug car un service manque)
+apply nginx
+
+-------------------------------- METALLB --------------------------------------------
+https://medium.com/@shoaib_masood/metallb-network-loadbalancer-minikube-335d846dfdbe
+
+
+-------------------------------- DASHBOARD --------------------------------------------
+lancer le dashboard pour creer le namespce puis creer un service dans ce namespace
+
 -------------------------------- NGINX --------------------------------------------
 # pour pouvoir utiliser la commande nginx
 mkdir -p /run/nginx
@@ -135,9 +150,12 @@ nginx
 >> bug parfois meme si bien appelé dans le script pourtant. Il faut desfois le relancer en entrant dans
 le container
 
--------------------------------- ORDRE BUILD SETUP.SH --------------------------------------------
-minikube start 
-connecter docker a env minikube
-peut etre lancer une fois le dashboard avec minikube pour creer le namespace ?
-apply Phpmyadmin (avant nginx sinon nginx bug car un service manque)
-apply nginx
+-------------------------------- ACCEDER NGINX SSH --------------------------------------------
+apk add --update openssh >> installe le serveur ssh
+ssh-keygen -A >> permet de generer les cles ssh necessaire a son fonctionnement (les hostkeys)
+/usr/sbin/sshd >> lance le daemon de ssh
+adduser -D user42 >> permet de creer un nouveau user sans password grace a l'option D
+echo "user42:user42" | chpasswd >> changer le mdp (echo "user:password")
+ssh user@ip >> permet la connexion ssh
+!!!! >> penser entre chaque connexion a aller dans ~/.ssh/known_host sur le pc qui tente de se connecter
+et supprimer la precedente cle associe au precedent container (ip de minikube du coup)
