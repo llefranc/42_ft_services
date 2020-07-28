@@ -16,7 +16,7 @@ devrez vous assurer que celles-ci puissent persister et ne soient pas perdu. En 
 de suppression, les volumes où la data est sauvegardée doivent persister.
 >>> Vous devrez vous assurer de pouvoir accéder a votre Nginx en connexion SSH
 • Chacun de vos containers devra pouvoir redémarrer automatiquement en cas de
-crash ou d’arrêt
+crash ou d’arrêt >> penser a mettre 2 replicas
 
 > FONCTIONNEMENT GENERAL 
 
@@ -129,7 +129,7 @@ apply nginx
 
 -------------------------------- METALLB --------------------------------------------
 https://medium.com/@shoaib_masood/metallb-network-loadbalancer-minikube-335d846dfdbe
-
+https://medium.com/faun/metallb-configuration-in-minikube-to-enable-kubernetes-service-of-type-loadbalancer-9559739787df
 
 -------------------------------- DASHBOARD --------------------------------------------
 lancer le dashboard pour creer le namespce puis creer un service dans ce namespace
@@ -159,3 +159,9 @@ echo "user42:user42" | chpasswd >> changer le mdp (echo "user:password")
 ssh user@ip >> permet la connexion ssh
 !!!! >> penser entre chaque connexion a aller dans ~/.ssh/known_host sur le pc qui tente de se connecter
 et supprimer la precedente cle associe au precedent container (ip de minikube du coup)
+
+-------------------------------- PHPMYADMIN --------------------------------------------
+penser a dire a php-fpm7 de listen sur le 5000
+>>> PROBLEME POUR PHPMYADMIN qvec page blanche >>> decommenter security.limits dans www.conf et ne rien mettre
+https://www.digitalocean.com/community/questions/php-fpm-security-limit_extension-issue
+>>> dans la version qui marche j;'ai mis user et group en www-data

@@ -31,7 +31,7 @@ COPY script_phpmyadmin_cont.sh /home/script/script_phpmyadmin_cont.sh
 RUN chmod 777 /home/script/script_phpmyadmin_cont.sh
 
 # rights for phpmyadmin
-RUN chmod  755 /usr/share/webapp/phpmyadmin/config.inc.php
+RUN chmod 755 /usr/share/webapp/phpmyadmin/config.inc.php
 
 # container will start on this script
 ENTRYPOINT /home/script/script_phpmyadmin_cont.sh
