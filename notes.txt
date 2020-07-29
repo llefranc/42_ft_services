@@ -124,6 +124,7 @@ pour rentrer dans le terminal d'alpine (fonctionne avec sh et non bash)
 minikube start 
 connecter docker a env minikube
 peut etre lancer une fois le dashboard avec minikube pour creer le namespace ?
+qpply mysql
 apply Phpmyadmin (avant nginx sinon nginx bug car un service manque)
 apply nginx
 

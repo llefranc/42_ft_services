@@ -7,10 +7,7 @@
 -- password : user42
 CREATE USER 'user42'@'%' IDENTIFIED BY 'user42';
 GRANT ALL PRIVILEGES ON *.* TO 'user42'@'%' WITH GRANT OPTION;
-
-CREATE USER 'root'@'%' IDENTIFIED BY 'root';
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'user42'@'localhost' WITH GRANT OPTION;
 
 -- --------------------------------------------------------
 
