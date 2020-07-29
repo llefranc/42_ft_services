@@ -1,9 +1,13 @@
 FROM alpine:latest
 
-RUN apk update && apk add mariadb mariadb-client
+RUN apk update && apk add mariadb mariadb-client vim
 
 # script that will create an user for mariadb
 COPY create_user.sql /home/docker/script/create_user.sql
+
+# config file for mariadb-server
+RUN rm /etc/my.cnf.d/mariadb-server.cnf
+COPY mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 
 # copying script for infinite loop to prevent exit
 COPY script_mysql_cont.sh /home/script/script_mysql_cont.sh
