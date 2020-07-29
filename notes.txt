@@ -162,6 +162,10 @@ et supprimer la precedente cle associe au precedent container (ip de minikube du
 
 -------------------------------- PHPMYADMIN --------------------------------------------
 penser a dire a php-fpm7 de listen sur le 5000
+
 >>> PROBLEME POUR PHPMYADMIN qvec page blanche >>> decommenter security.limits dans www.conf et ne rien mettre
 https://www.digitalocean.com/community/questions/php-fpm-security-limit_extension-issue
->>> dans la version qui marche j;'ai mis user et group en www-data
+
+>>> Phpmyadmin: There is a mismatch between HTTPS indicated on the server and client.
+https://community.centminmod.com/threads/phpmyadmin-there-is-a-mismatch-between-https-indicated-on-the-server-and-client.18930/
+la version 5.0.2 de phpmyadmin est bugge avec http/https >> installer la version 4.9.2 et le probleme est resolue

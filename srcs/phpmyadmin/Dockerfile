@@ -8,9 +8,11 @@ RUN apk update && apk add vim php7-fpm php7-opcache php7-common php7-iconv php7-
 
 # installing phpmyadmin
 RUN mkdir -p /usr/share/webapp/phpmyadmin/
-RUN wget http://files.directadmin.com/services/all/phpMyAdmin/phpMyAdmin-5.0.2-all-languages.tar.gz
-RUN tar xzf phpMyAdmin-5.0.2-all-languages.tar.gz --strip-components=1 -C /usr/share/webapp/phpmyadmin/
-RUN rm phpMyAdmin-5.0.2-all-languages.tar.gz
+RUN wget https://files.phpmyadmin.net/phpMyAdmin/4.9.2/phpMyAdmin-4.9.2-all-languages.tar.gz
+
+# RUN wget http://files.directadmin.com/services/all/phpMyAdmin/phpMyAdmin-5.0.2-all-languages.tar.gz
+RUN tar xzf phpMyAdmin-4.9.2-all-languages.tar.gz --strip-components=1 -C /usr/share/webapp/phpmyadmin/
+RUN rm phpMyAdmin-4.9.2-all-languages.tar.gz
 
 # copying config file
 COPY config.inc.php /usr/share/webapp/phpmyadmin/config.inc.php
