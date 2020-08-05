@@ -6,14 +6,14 @@ RUN apk update && apk add vim php7-fpm php7-opcache php7-common php7-iconv php7-
     php7-posix php7-session php7-mcrypt php7-gettext php7-ldap php7-ctype php7-dom php7-curl \
     php7-xml php7-mbstring 
 
-# installing phpmyadmin
-RUN mkdir -p /usr/share/webapp/phpmyadmin/
-RUN wget https://files.phpmyadmin.net/phpMyAdmin/4.9.2/phpMyAdmin-4.9.2-all-languages.tar.gz
-RUN tar xzf phpMyAdmin-4.9.2-all-languages.tar.gz --strip-components=1 -C /usr/share/webapp/phpmyadmin/
-RUN rm phpMyAdmin-4.9.2-all-languages.tar.gz
+# installing wordpress
+RUN mkdir -p /usr/share/webapp/wordpress/
+RUN wget https://wordpress.org/latest.tar.gz
+RUN tar xzf latest.tar.gz --strip-components=1 -C /usr/share/webapp/wordpress/
+RUN rm latest.tar.gz
 
 # copying config file
-COPY config.inc.php /usr/share/webapp/phpmyadmin/config.inc.php
+COPY wp-config.php /usr/share/webapp/wordpress/wp-config.php
 
 # config file for php-fpm
 RUN rm /etc/php7/php-fpm.d/www.conf
@@ -23,12 +23,12 @@ COPY www.conf /etc/php7/php-fpm.d/www.conf
 RUN mkdir -p /run/php
 
 # copying script for infinite loop to prevent exit
-COPY script_phpmyadmin_cont.sh /home/script/script_phpmyadmin_cont.sh
+COPY script_wordpress_cont.sh /home/script/script_wordpress_cont.sh
 # giving rights for execution
-RUN chmod 777 /home/script/script_phpmyadmin_cont.sh
+RUN chmod 777 /home/script/script_wordpress_cont.sh
 
-# rights for phpmyadmin
-RUN chmod 755 /usr/share/webapp/phpmyadmin/config.inc.php
+# rights for wordpress
+RUN chmod 755 /usr/share/webapp/wordpress/wp-config.php
 
 # container will start on this script
-ENTRYPOINT /home/script/script_phpmyadmin_cont.sh
+ENTRYPOINT /home/script/script_wordpress_cont.sh
