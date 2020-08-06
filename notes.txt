@@ -7,7 +7,7 @@ TO DO
 • Un wordpress ouvert sur le port 5050, fonctionnant avec une base de donnée
 Mysql. Les deux devront être dans deux containers distincts. Le wordpress devra
 comporter plusieurs utilisateurs et un administrateur.
-• Phpmyadmin, tournant sur le port 5000 et relié a la base de donnée MySQL.
+>>> Phpmyadmin, tournant sur le port 5000 et relié a la base de donnée MySQL.
 • Un grafana, accessible sur le port 3000, fonctionnant avec une base de donnée
 influxDB. Celui-ci devra vous permettre de monitorer tous vos containers. Les
 deux devront aussi être dans deux containers distincts. Vous devrez créer un dashboard par container.
@@ -17,6 +17,7 @@ de suppression, les volumes où la data est sauvegardée doivent persister.
 >>> Vous devrez vous assurer de pouvoir accéder a votre Nginx en connexion SSH
 • Chacun de vos containers devra pouvoir redémarrer automatiquement en cas de
 crash ou d’arrêt >> penser a mettre 2 replicas
+
 
 > FONCTIONNEMENT GENERAL 
 
@@ -131,6 +132,8 @@ apply nginx
 -------------------------------- METALLB --------------------------------------------
 https://medium.com/@shoaib_masood/metallb-network-loadbalancer-minikube-335d846dfdbe
 https://medium.com/faun/metallb-configuration-in-minikube-to-enable-kubernetes-service-of-type-loadbalancer-9559739787df
+minikube addons enable metallb >> pour activer
+minikube addons list >> pour lister
 
 -------------------------------- DASHBOARD --------------------------------------------
 lancer le dashboard pour creer le namespce puis creer un service dans ce namespace
@@ -150,6 +153,15 @@ VOLUME [ “/sys/fs/cgroup” ]
 nginx
 >> bug parfois meme si bien appelé dans le script pourtant. Il faut desfois le relancer en entrant dans
 le container
+
+# comprendre les regex avec nginx
+https://www.nginx.com/blog/regular-expression-tester-nginx/
+
+# guide nginx
+http://nginx.org/en/docs/beginners_guide.html#:~:text=The%20way%20nginx%20and%20its,%2Flocal%2Fetc%2Fnginx%20.
+
+# explication de comment marche le proxing entre nginx et php-fpm
+https://serverfault.com/questions/856640/nginx-not-serving-css-correctly-in-simple-php-project
 
 -------------------------------- ACCEDER NGINX SSH --------------------------------------------
 apk add --update openssh >> installe le serveur ssh
@@ -172,45 +184,28 @@ https://community.centminmod.com/threads/phpmyadmin-there-is-a-mismatch-between-
 la version 5.0.2 de phpmyadmin est bugge avec http/https >> installer la version 4.9.2 et le probleme est resolue
 https://www.phpmyadmin.net/files/4.9.2/
 
+
+>> renseigner dans le fichier config de [host] = 'mysql-service'
+>> j'ai suppr mariadb-client dans le pod de phpmyadmin car pas besoin en theorie. semble marcher
+
 -------------------------------- MYSQL ---------------------------------------------------
-#
-# These groups are read by MariaDB server.
-# Use it for options that only the server (but not clients) should see
+>>> montrer les databases
+SHOW DATABASES;
 
-# this is read by the standalone daemon and embedded servers
-[server]
+>>> montrer les tables d'une databse
+SHOW TABLES 
+[FROM databasename];
 
-# this is only for the mysqld standalone daemon
-[mysqld]
-log_error=/var/log/mysql/mysql_error.log
+>>>> supprimer une databse
+drop database 42_ft_services;
 
-# Galera-related settings
-[galera]
-# Mandatory settings
-#wsrep_on=ON
-#wsrep_provider=
-#wsrep_cluster_address=
-#binlog_format=row
-#default_storage_engine=InnoDB
-#innodb_autoinc_lock_mode=2
-#
-# Allow server to accept connections on all interfaces.
-#
-bind-address=0.0.0.0
-#
-# Optional setting
-#wsrep_slave_threads=1
-#innodb_flush_log_at_trx_commit=0
+donc dans un premier temps installer le server + le client sur le pod mysql
+lancer mysqld (le daemon)
+lancer un script dans mysql (client) pour creer un user avec tous les droits et sur toutes les ip
+renseigner le fichioer de config de my sql dqns my.cnf.d dans /etc/
+>>> CREER LE POD MYSQL AVANT LE POD PHPMYADMIN OU wordpress
 
-# this is only for embedded server
-[embedded]
+en localhost root est reserve pour la creation d'instance du programme (pour le daemon et le socket etc
+il me semble) >> penser donc a creer un superuser sous un autre nom que root
 
-# This group is only read by MariaDB servers, not by MySQL.
-# If you use the same .cnf file for MySQL and MariaDB,
-# you can put MariaDB-only options here
-[mariadb]
-
-# This group is only read by MariaDB-10.3 servers.
-# If you use the same .cnf file for MariaDB of different versions,
-# use this group for options that older servers don't understand
-[mariadb-10.3]
+-------------------------------- WORDPRESS ---------------------------------------------------
