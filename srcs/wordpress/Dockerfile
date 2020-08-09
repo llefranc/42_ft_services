@@ -19,7 +19,6 @@ RUN chmod 755 /usr/share/webapp/wordpress/wp-config.php
 RUN rm /etc/nginx/conf.d/default.conf
 COPY my_nginx.conf /etc/nginx/conf.d/my_nginx.conf
 # SSL config for nginx
-RUN mkdir /etc/nginx/ssl
 COPY nginx.crt /etc/nginx/ssl/nginx.crt
 COPY nginx.key /etc/nginx/ssl/nginx.key
 
