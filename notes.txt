@@ -172,6 +172,10 @@ https://serverfault.com/questions/856640/nginx-not-serving-css-correctly-in-simp
 # comprendre le proxypass de nginx
 https://www.digitalocean.com/community/tutorials/understanding-nginx-http-proxying-load-balancing-buffering-and-caching
 
+
+# besoin de definir pour que redirection marche :
+>> proxy_set_header HOST $host; 
+
 -------------------------------- ACCEDER NGINX SSH --------------------------------------------
 apk add --update openssh >> installe le serveur ssh
 ssh-keygen -A >> permet de generer les cles ssh necessaire a son fonctionnement (les hostkeys)
