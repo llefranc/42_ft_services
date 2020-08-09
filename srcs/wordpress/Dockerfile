@@ -32,10 +32,5 @@ COPY script_wordpress_cont.sh /home/script/script_wordpress_cont.sh
 # giving rights for execution
 RUN chmod 777 /home/script/script_wordpress_cont.sh
 
-# A SUPPRIMER
-# for testing nginx proxy
-COPY monstyle.css /usr/share/webapp/test/monstyle.css
-COPY test_css.html /usr/share/webapp/test/test_css.html
-
 # container will start on this script
 ENTRYPOINT /home/script/script_wordpress_cont.sh
