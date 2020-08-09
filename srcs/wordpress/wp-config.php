@@ -23,10 +23,10 @@
 define( 'DB_NAME', '42_ft_services' );
 
 /** MySQL database username */
-define( 'DB_USER', 'root' );
+define( 'DB_USER', 'user42' );
 
 /** MySQL database password */
-define( 'DB_PASSWORD', 'root' );
+define( 'DB_PASSWORD', 'user42' );
 
 /** MySQL hostname */
 define( 'DB_HOST', 'mysql-service' );
@@ -72,14 +72,6 @@ $table_prefix = 'wp_';
  */
 
 define( 'WP_DEBUG', false ); //mettre a true pour obtenir plus d;ibnfos sur les bugs
-// define('FORCE_SSL_LOGIN', true);
-// define('FORCE_SSL_ADMIN', true);
-// define('WP_DEBUG_LOG', true);
-// define( 'SCRIPT_DEBUG', true );
-// define('FORCE_SSL_ADMIN', true);
-// if ($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
-//     $_SERVER['HTTPS']='on';
-// }
 
 /* That's all, stop editing! Happy publishing. */
 

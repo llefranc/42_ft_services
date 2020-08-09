@@ -19,6 +19,8 @@ de suppression, les volumes où la data est sauvegardée doivent persister.
 crash ou d’arrêt >> penser a mettre 2 replicas
 
 
+> voir si on peut fastcgipasss par socket (plus secure, un port en moins ouvert)
+
 > FONCTIONNEMENT GENERAL 
 
 On a dans chaque nod (= une machine), des pods qui contiennent un container (de preference juste un)
@@ -111,6 +113,7 @@ $ kubectl run my-app --image=gcr.io/some-repo/my-app:v1 --port=3000
 kubectl port-forward <your-pod-name> <local-port>:<your-app-port>
 
 -------------------------------- RUN DES DOCKERFILE DANS K8S --------------------------------------------
+eval $(minikube docker-env)
 https://stackoverflow.com/questions/40144138/pull-a-local-image-to-run-a-pod-in-kubernetes
 
 -------------------------------- RAJOUTER UN DNS  --------------------------------------------
@@ -163,6 +166,12 @@ http://nginx.org/en/docs/beginners_guide.html#:~:text=The%20way%20nginx%20and%20
 # explication de comment marche le proxing entre nginx et php-fpm
 https://serverfault.com/questions/856640/nginx-not-serving-css-correctly-in-simple-php-project
 
+# proxypass >> pour reverse proxy sur nginx
+# fastcgipass >> pour reverse proxy sur php-fpm
+
+# comprendre le proxypass de nginx
+https://www.digitalocean.com/community/tutorials/understanding-nginx-http-proxying-load-balancing-buffering-and-caching
+
 -------------------------------- ACCEDER NGINX SSH --------------------------------------------
 apk add --update openssh >> installe le serveur ssh
 ssh-keygen -A >> permet de generer les cles ssh necessaire a son fonctionnement (les hostkeys)
@@ -199,6 +208,9 @@ SHOW TABLES
 >>>> supprimer une databse
 drop database 42_ft_services;
 
+>>> Once logged into MySQL, list all MySQL users and their corresponding hosts in your database.
+SELECT User,Host FROM mysql.user;
+
 donc dans un premier temps installer le server + le client sur le pod mysql
 lancer mysqld (le daemon)
 lancer un script dans mysql (client) pour creer un user avec tous les droits et sur toutes les ip
@@ -208,4 +220,7 @@ renseigner le fichioer de config de my sql dqns my.cnf.d dans /etc/
 en localhost root est reserve pour la creation d'instance du programme (pour le daemon et le socket etc
 il me semble) >> penser donc a creer un superuser sous un autre nom que root
 
+# comprendre les utilisateurs mysql et les differents droits
+https://devanswers.co/mysql-rejecting-correct-password-error-1045-access-denied-for-user-using-password-yes/#understanding-mysql-users-and-hosts
 -------------------------------- WORDPRESS ---------------------------------------------------
+

@@ -18,6 +18,7 @@ spec:
         imagePullPolicy: IfNotPresent # allow to pull a local docker image
         ports:
         - containerPort: 5000
+        - containerPort: 9000
 ---
 apiVersion: v1
 kind: Service
