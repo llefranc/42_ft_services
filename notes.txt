@@ -4,22 +4,20 @@ TO DO
 >>> Un serveur Nginx ouvert sur les ports 80
 >>> Nginx redirige automatiquement tous les 80 sur le 443 en ssl
 • Un serveur FTPS ouvert sur le port 21.
-• Un wordpress ouvert sur le port 5050, fonctionnant avec une base de donnée
+>>> Un wordpress ouvert sur le port 5050, fonctionnant avec une base de donnée
 Mysql. Les deux devront être dans deux containers distincts. Le wordpress devra
 comporter plusieurs utilisateurs et un administrateur.
 >>> Phpmyadmin, tournant sur le port 5000 et relié a la base de donnée MySQL.
 • Un grafana, accessible sur le port 3000, fonctionnant avec une base de donnée
 influxDB. Celui-ci devra vous permettre de monitorer tous vos containers. Les
 deux devront aussi être dans deux containers distincts. Vous devrez créer un dashboard par container.
-• En cas de crash ou d’arrêt d’un des deux containers de base de données, vous
+>>> En cas de crash ou d’arrêt d’un des deux containers de base de données, vous
 devrez vous assurer que celles-ci puissent persister et ne soient pas perdu. En cas
 de suppression, les volumes où la data est sauvegardée doivent persister.
 >>> Vous devrez vous assurer de pouvoir accéder a votre Nginx en connexion SSH
 • Chacun de vos containers devra pouvoir redémarrer automatiquement en cas de
 crash ou d’arrêt >> penser a mettre 2 replicas
 
-
-> voir si on peut fastcgipasss par socket (plus secure, un port en moins ouvert)
 
 > FONCTIONNEMENT GENERAL 
 
@@ -139,7 +137,8 @@ minikube addons enable metallb >> pour activer
 minikube addons list >> pour lister
 
 -------------------------------- DASHBOARD --------------------------------------------
-lancer le dashboard pour creer le namespce puis creer un service dans ce namespace
+minikube addons enable dashboard >> permet de creer le namespace pour le dashboard
+puis creer un external service dans ce namespace
 
 -------------------------------- NGINX --------------------------------------------
 # pour pouvoir utiliser la commande nginx
@@ -228,6 +227,10 @@ mysql -u {username} -p'{password}' \
     -D {DB name}
 mysql -u user42 -puser42 -h mysql-service -D 42_ft_services -P 3306
 
+>>> lancer un script sql dans le client 
+mysql < script.sql
+fonctionne aussi avec les infos de log a distance
+
 donc dans un premier temps installer le server + le client sur le pod mysql
 lancer mysqld (le daemon)
 lancer un script dans mysql (client) pour creer un user avec tous les droits et sur toutes les ip
@@ -239,7 +242,6 @@ il me semble) >> penser donc a creer un superuser sous un autre nom que root
 
 # comprendre les utilisateurs mysql et les differents droits
 https://devanswers.co/mysql-rejecting-correct-password-error-1045-access-denied-for-user-using-password-yes/#understanding-mysql-users-and-hosts
-
 
 
 -------------------------------- WORDPRESS ---------------------------------------------------
@@ -254,5 +256,20 @@ pour wp-cli chopper le bon lien pour telecharger le fichier + installer php7-cli
 si le wordpress ne charge pas le javascript >> surement un probleme lié à ssl (lors du reverse proxy ou de l'install avec wp-cli
 si url renseignée juste en http) !
 
-nohup mysql -u user42 -puser42 -h mysql-service -D 42_ft_services -P 3306 -e /home/scr
-ipt/
+
+-------------------------------- INFLUXDB ---------------------------------------------------
+# permet de generer un fichier de config pour influxdb
+influxd config > influxdb.conf
+
+# influxdb stock ses donnes dans var/lib/influxdb
+# penser aussi a lui creer un fichier de config dans /etc/influxdb/
+
+chown influxdb:influxdb /etc/influxdb/*
+https://thenewstack.io/how-to-setup-influxdb-telegraf-and-grafana-on-docker-part-1/
+
+influxd permet de lancer le daemon
+ensuite quand on fait influx, ca permet de lancer le client qui se connecte au daemon et communique
+avec lui
+
+# creer un user dans influx
+CREATE USER admin WITH PASSWORD 'admin123' WITH ALL PRIVILEGES

@@ -17,10 +17,13 @@ docker build -t phpmyadmin_img srcs/phpmyadmin/.
 printf "\e[0;32m[phpmyadmin image built]\e[0m\n\n"
 docker build -t mysql_img srcs/mysql/.
 printf "\e[0;32m[mysql image built]\e[0m\n\n"
+docker build -t influxdb_img srcs/influxdb/.
+printf "\e[0;32m[influxdb image built]\e[0m\n\n"
 
 # creating deployment / services / persistent volume claim
-printf "\e[0;32m[beginning of creation of services / deployment / persistent volume claim]\e[0m\n"
+printf "\e[0;32m[beginning creation of services / deployments / persistent volume claim]\e[0m\n"
 kubectl apply -f srcs/mysql/mysql.yaml
+kubectl apply -f srcs/influxdb/influxdb.yaml
 kubectl apply -f srcs/phpmyadmin/phpmyadmin.yaml
 # need to sleep 15 sec for waiting end of config of mysql so wordpress can autoinstall automatically
 printf "\e[0;32m[sleeping 15 sec for waiting end of configuration of mysql]\e[0m\n"
