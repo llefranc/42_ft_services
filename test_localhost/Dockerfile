@@ -77,6 +77,12 @@ COPY wordpress/wp-config.php /usr/share/webapp/wordpress/wp-config.php
 # rights for wordpress
 RUN chmod 755 /usr/share/webapp/wordpress/wp-config.php
 
+# auto-install of wordpress using wp-cli
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar & mv wp-cli.phar /usr/bin/wp-cli
+RUN apk add php7-cli php7-phar
+# RUN wp-cli --allow-root core install --path=/usr/share/webapp/wordpress --url=wordpress --title="site_ft_services"\
+#     --admin_user=user42 --admin_password=user42 --admin_email=xxx@xxx.fr
 
 # --------------- SCRIPT -----------------
 # copying script for starting nginx and infinite loop to prevent exit

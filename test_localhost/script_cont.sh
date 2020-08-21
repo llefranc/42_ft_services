@@ -1,4 +1,4 @@
-# !/bin/bash
+# !/bin/sh
 # starting nginx
 nginx
 # generating keys for ssh
@@ -20,6 +20,10 @@ mysql < /home/docker/script/create_user.sql
 
 # launching php-fpm7
 php-fpm7
+
+# autoinstall of wordpress with wp-cli
+wp-cli --allow-root core install --path=/usr/share/webapp/wordpress --url=https://localhost/wordpress/ --title="site_ft_services"\
+    --admin_user=user42 --admin_password=user42 --admin_email=xxx@xxx.fr
 
 while true
 do

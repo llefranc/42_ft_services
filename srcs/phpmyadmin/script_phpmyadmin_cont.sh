@@ -1,4 +1,4 @@
-# !/bin/bash
+# !/bin/sh
 nginx
 php-fpm7
 while true

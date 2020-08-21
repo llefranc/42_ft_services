@@ -174,7 +174,14 @@ https://www.digitalocean.com/community/tutorials/understanding-nginx-http-proxyi
 
 
 # besoin de definir pour que redirection marche :
->> proxy_set_header HOST $host; 
+>> proxy_set_header HOST $host;
+>> proxy_set_header X-Forwarded-Proto "https";
+
+
+faire proxy_pass https://"nom_du_service:port"
+il faut en effet faire le proxy pass en ssl car la requete arrive en ssl et mettre les memes cles publiques
+et privees dans tous les containers. Les nginx qui recoivent le proxy doivent ecouter sur le port en ssl
+et ensuite faire un fastcgi_pass sur php-fpm7 pour les .php
 
 -------------------------------- ACCEDER NGINX SSH --------------------------------------------
 apk add --update openssh >> installe le serveur ssh
@@ -215,6 +222,12 @@ drop database 42_ft_services;
 >>> Once logged into MySQL, list all MySQL users and their corresponding hosts in your database.
 SELECT User,Host FROM mysql.user;
 
+>>> se connecter a distance a mysql avec le client
+mysql -u {username} -p'{password}' \
+    -h {remote server ip or name} -P {port} \
+    -D {DB name}
+mysql -u user42 -puser42 -h mysql-service -D 42_ft_services -P 3306
+
 donc dans un premier temps installer le server + le client sur le pod mysql
 lancer mysqld (le daemon)
 lancer un script dans mysql (client) pour creer un user avec tous les droits et sur toutes les ip
@@ -226,5 +239,20 @@ il me semble) >> penser donc a creer un superuser sous un autre nom que root
 
 # comprendre les utilisateurs mysql et les differents droits
 https://devanswers.co/mysql-rejecting-correct-password-error-1045-access-denied-for-user-using-password-yes/#understanding-mysql-users-and-hosts
+
+
+
 -------------------------------- WORDPRESS ---------------------------------------------------
 
+config wp-config.php avec la database
+utiliser wp-cli pour installer automatiquement wordpress. attention l'url doit match exactement lors de wp-cli core install ! 
+(https + adresse ip du loadbalancer) >> astuce pour que le loadbalancer ait toujours la meme ip >> range ip de une seule
+adresse dans le configmap de metallb
+
+pour wp-cli chopper le bon lien pour telecharger le fichier + installer php7-cli php7-phar
+
+si le wordpress ne charge pas le javascript >> surement un probleme lié à ssl (lors du reverse proxy ou de l'install avec wp-cli
+si url renseignée juste en http) !
+
+nohup mysql -u user42 -puser42 -h mysql-service -D 42_ft_services -P 3306 -e /home/scr
+ipt/
