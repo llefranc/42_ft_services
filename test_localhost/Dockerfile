@@ -84,6 +84,19 @@ RUN apk add php7-cli php7-phar
 # RUN wp-cli --allow-root core install --path=/usr/share/webapp/wordpress --url=wordpress --title="site_ft_services"\
 #     --admin_user=user42 --admin_password=user42 --admin_email=xxx@xxx.fr
 
+# --------------- GRAFANA -----------------
+# installing GRAFANA
+RUN apk update && apk add libc6-compat
+# install grafana
+RUN mkdir -p /usr/share/webapp/grafana/
+RUN wget https://dl.grafana.com/oss/release/grafana-6.6.0.linux-amd64.tar.gz
+RUN tar -xzf grafana-6.6.0.linux-amd64.tar.gz --strip-components=1 -C /usr/share/webapp/grafana/
+RUN rm grafana-6.6.0.linux-amd64.tar.gz
+
+# config file for grafana
+RUN rm usr/share/webapp/grafana/conf/defaults.ini
+COPY grafana/defaults.ini usr/share/webapp/grafana/conf/defaults.ini
+
 # --------------- SCRIPT -----------------
 # copying script for starting nginx and infinite loop to prevent exit
 COPY script_cont.sh /home/script/script_cont.sh
@@ -94,6 +107,8 @@ RUN chmod 777 /home/script/script_cont.sh
 EXPOSE 80
 # php-fpm port
 EXPOSE 5000
+# garfana port
+EXPOSE 3001
 
 # container will start on this script
 ENTRYPOINT /home/script/script_cont.sh

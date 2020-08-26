@@ -265,7 +265,6 @@ influxd config > influxdb.conf
 # penser aussi a lui creer un fichier de config dans /etc/influxdb/
 
 chown influxdb:influxdb /etc/influxdb/*
-https://thenewstack.io/how-to-setup-influxdb-telegraf-and-grafana-on-docker-part-1/
 
 influxd permet de lancer le daemon
 ensuite quand on fait influx, ca permet de lancer le client qui se connecte au daemon et communique
@@ -273,3 +272,22 @@ avec lui
 
 # creer un user dans influx
 CREATE USER admin WITH PASSWORD 'admin123' WITH ALL PRIVILEGES
+
+# commandes pour le client de influx
+https://docs.influxdata.com/influxdb/v1.8/tools/shell/
+
+# tuto complet sur comment installer influx et grafana
+https://thenewstack.io/how-to-setup-influxdb-telegraf-and-grafana-on-docker-part-1/
+
+# tuto inflxdb
+https://devconnected.com/how-to-install-influxdb-on-ubuntu-debian-in-2019/#Option_2_Adding_the_repositories_to_your_package_manager
+
+-------------------------------- GRAFANA ---------------------------------------------------
+installer a partir des sources binaires sur le site de grafana puis lancer grafana-server qui se situe
+dans le dossier bin. penser a installer le package libc6-compat pour eviter l'erreur "grafana-server not found"
+
+# comprendre fichier config grafana
+https://grafana.com/docs/grafana/latest/administration/configuration/
+
+# grafana derriere un reverse proxy
+https://grafana.com/tutorials/run-grafana-behind-a-proxy/#1
