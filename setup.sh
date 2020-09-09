@@ -1,7 +1,16 @@
 # !bin/bash
 
+minikube delete
+minikube start
+
+printf "\e[0;32m[sleeping 3 sec for waiting end of configuration of minikube]\e[0m\n"
+sleep 3
+
 # linking our docker client to minikube environnement
 eval $(minikube docker-env)
+
+# so telegraf can collect datas from the cluster
+minikube addons enable metrics-server
 
 # enabling and configuring metallb
 kubectl apply -f srcs/metallb/metallb.yaml
@@ -25,6 +34,7 @@ docker build -t telegraf_img srcs/telegraf/.
 printf "\e[0;32m[telegraf image built]\e[0m\n\n"
 
 # creating deployment / services / persistent volume claim
+kubectl apply -f srcs/telegraf/admin-pod.yaml
 printf "\e[0;32m[beginning creation of services / deployments / persistent volume claim]\e[0m\n"
 kubectl apply -f srcs/mysql/mysql.yaml
 kubectl apply -f srcs/influxdb/influxdb.yaml

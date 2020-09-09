@@ -1,12 +1,6 @@
 # !/bin/sh
 
-nginx
-php-fpm7
-
-# launch grafana-server daemon
-cd /usr/share/webapp/grafana/bin/
-./grafana-server &
-sleep 3
+/usr/sbin/grafana-server --homepath "/usr/share/grafana" &
 while true
 do
 	sleep 1;

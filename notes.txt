@@ -292,3 +292,14 @@ https://grafana.com/docs/grafana/latest/administration/configuration/
 
 # grafana derriere un reverse proxy
 https://grafana.com/tutorials/run-grafana-behind-a-proxy/#1
+
+-------------------------------- TELEGRAF ---------------------------------------------------
+# besoin d'utiliser le premier fichier yaml de ce site pour donner les droits d'acces a telegraf pour acceder k8s
+https://github.com/fabric8io/fabric8/issues/6840
+
+# minikube addons enable metrics-server
+necessaire pour que k8s transmette les donnees a telegraf
+
+# Read metrics from the Kubernetes api >>> dans le fichier de config de telegraf ce champ permet de connecter k8s en input
+[[inputs.kube_inventory]]
+>>> necessaire d'avoir une version asse recente de trelegraf (au moins 1.10 je crois) sinon ce champ n'est pas reconnu

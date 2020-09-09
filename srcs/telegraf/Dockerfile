@@ -3,8 +3,8 @@ FROM alpine:latest
 RUN apk update && apk add vim
 
 # installing telegraf for collecting data-metrics
-RUN wget https://dl.influxdata.com/telegraf/releases/telegraf-1.6.3-static_linux_amd64.tar.gz
-RUN tar -C . -xzf telegraf-1.6.3-static_linux_amd64.tar.gz && \
+RUN wget https://dl.influxdata.com/telegraf/releases/telegraf-1.13.3-static_linux_amd64.tar.gz && \
+        tar -C . -xzf telegraf-1.13.3-static_linux_amd64.tar.gz && \
         chmod +x telegraf/* && \
         cp telegraf/telegraf /usr/bin/ && \
         rm -rf *.tar.gz* telegraf/ && \
