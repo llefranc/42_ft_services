@@ -27,6 +27,8 @@ metadata:
 spec:
   selector:
     app: wordpress
+  type: LoadBalancer
+  loadBalancerIP: 192.168.64.7
   ports:
     - port: 5050
       targetPort: 5050

@@ -9,4 +9,4 @@ data:
     - name: custom-ip-space
       protocol: layer2
       addresses:
-      - 192.168.64.4-192.168.64.10
+      - 192.168.64.4-192.168.64.12
