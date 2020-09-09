@@ -39,16 +39,6 @@ COPY script_wordpress_cont.sh /home/script/script_wordpress_cont.sh
 # add 2 users to wordpress
 COPY create_user_wp.sql /home/script/create_user_wp.sql
 
-# installing telegraf for collecting data-metrics
-RUN wget https://dl.influxdata.com/telegraf/releases/telegraf-1.6.3-static_linux_amd64.tar.gz
-RUN tar -C . -xzf telegraf-1.6.3-static_linux_amd64.tar.gz && \
-        chmod +x telegraf/* && \
-        cp telegraf/telegraf /usr/bin/ && \
-        rm -rf *.tar.gz* telegraf/ && \
-        mkdir /etc/telegraf
-# copying config file for telegraf
-COPY telegraf.conf /etc/telegraf/telegraf.conf
-
 # giving rights for execution
 RUN chmod 777 /home/script/script_wordpress_cont.sh
 

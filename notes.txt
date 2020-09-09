@@ -275,6 +275,7 @@ CREATE USER admin WITH PASSWORD 'admin123' WITH ALL PRIVILEGES
 
 # commandes pour le client de influx
 https://docs.influxdata.com/influxdb/v1.8/tools/shell/
+https://docs.influxdata.com/influxdb/v1.7/query_language/schema_exploration/
 
 # tuto complet sur comment installer influx et grafana
 https://thenewstack.io/how-to-setup-influxdb-telegraf-and-grafana-on-docker-part-1/
