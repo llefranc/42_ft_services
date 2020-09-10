@@ -14,7 +14,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql-deployment
+  name: mysql
 spec:
   selector:
     matchLabels:
@@ -31,6 +31,14 @@ spec:
       - name: mysql
         image: mysql_img # tag that we gave to the docker image when we build it
         imagePullPolicy: IfNotPresent # allow to pull a local docker image
+        livenessProbe:
+          exec:
+            command:
+            - /bin/ash
+            - -c
+            - 'pgrep mysqld'
+          initialDelaySeconds: 3
+          periodSeconds: 3
         ports:
         - containerPort: 3306
         volumeMounts:

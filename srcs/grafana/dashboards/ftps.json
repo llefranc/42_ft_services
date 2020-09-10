@@ -101,7 +101,7 @@
               {
                 "key": "deployment_name",
                 "operator": "=",
-                "value": "ftps-deployment"
+                "value": "ftps"
               }
             ]
           }

@@ -307,3 +307,16 @@ necessaire pour que k8s transmette les donnees a telegraf
 # Read metrics from the Kubernetes api >>> dans le fichier de config de telegraf ce champ permet de connecter k8s en input
 [[inputs.kube_inventory]]
 >>> necessaire d'avoir une version asse recente de trelegraf (au moins 1.10 je crois) sinon ce champ n'est pas reconnu
+
+-------------------------------- FTPS ---------------------------------------------------
+# installer ftps
+https://guide.ubuntu-fr.org/server/ftp-server.html
+
+# comprendre fichier config de vsftpd, daemon de ftps
+https://www.digitalocean.com/community/tutorials/how-to-set-up-vsftpd-for-a-user-s-directory-on-ubuntu-16-04
+
+# pour tester ftps il faut telecharger filezilla
+
+-------------------------------- LIVENESSPROBE ---------------------------------------------------
+a mettre dans les fichiers yaml, permet de restart les containers selon une condition (dans notre cas si pgrep
+trouve le nom du processus cherche pour savoir si celui ci est toujours en fonctionnment ou non)

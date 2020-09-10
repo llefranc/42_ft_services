@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wordpress-deployment
+  name: wordpress
 spec:
   selector:
     matchLabels:
@@ -18,6 +18,14 @@ spec:
       - name: wordpress
         image: wordpress_img # tag that we gave to the docker image when we build it
         imagePullPolicy: IfNotPresent # allow to pull a local docker image
+        livenessProbe:
+          exec:
+            command:
+            - /bin/ash
+            - -c
+            - 'pgrep nginx && pgrep php-fpm'
+          initialDelaySeconds: 3
+          periodSeconds: 3
         ports:
         - containerPort: 5050
         - containerPort: 9000

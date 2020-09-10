@@ -13,9 +13,9 @@ RUN wget https://dl.influxdata.com/telegraf/releases/telegraf-1.13.3-static_linu
 COPY telegraf.conf /etc/telegraf/telegraf.conf
 
 # copying script for infinite loop to prevent exit
-COPY script_telegraf_cont.sh /home/script/script_telegraf_cont.sh
+COPY script.sh /home/script/script.sh
 # giving rights for execution
-RUN chmod 777 /home/script/script_telegraf_cont.sh
+RUN chmod 777 /home/script/script.sh
 
 # container will start on this script
-ENTRYPOINT /home/script/script_telegraf_cont.sh
+ENTRYPOINT /home/script/script.sh

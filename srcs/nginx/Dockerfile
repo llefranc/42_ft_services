@@ -19,9 +19,9 @@ COPY nginx.crt /etc/nginx/ssl/nginx.crt
 COPY nginx.key /etc/nginx/ssl/nginx.key
 
 # copying script for starting nginx and infinite loop to prevent exit
-COPY script_nginx_cont.sh /home/script/script_nginx_cont.sh
+COPY script.sh /home/script/script.sh
 # giving rights for execution
-RUN chmod 777 /home/script/script_nginx_cont.sh
+RUN chmod 777 /home/script/script.sh
 
 # container will start on this script
-ENTRYPOINT /home/script/script_nginx_cont.sh
+ENTRYPOINT /home/script/script.sh

@@ -1,4 +1,0 @@
-[mysqld]
-user = root
-datadir = /var/lib/mysql
-skip-networking = true

@@ -11,9 +11,9 @@ COPY influxdb.conf /etc/influxdb/influxdb.conf
 RUN chown influxdb:influxdb /etc/influxdb/*
 
 # copying script for starting nginx and infinite loop to prevent exit
-COPY script_influxdb_cont.sh /home/script/script_influxdb_cont.sh
+COPY script.sh /home/script/script.sh
 # giving rights for execution
-RUN chmod 777 /home/script/script_influxdb_cont.sh
+RUN chmod 777 /home/script/script.sh
 
 # container will start on this script
-ENTRYPOINT /home/script/script_influxdb_cont.sh
+ENTRYPOINT /home/script/script.sh

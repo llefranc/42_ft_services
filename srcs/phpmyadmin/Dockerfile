@@ -28,9 +28,9 @@ RUN mkdir -p /run/nginx
 RUN mkdir -p /run/php
 
 # copying script for infinite loop to prevent exit
-COPY script_phpmyadmin_cont.sh /home/script/script_phpmyadmin_cont.sh
+COPY script.sh /home/script/script.sh
 # giving rights for execution
-RUN chmod 777 /home/script/script_phpmyadmin_cont.sh
+RUN chmod 777 /home/script/script.sh
 
 # container will start on this script
-ENTRYPOINT /home/script/script_phpmyadmin_cont.sh
+ENTRYPOINT /home/script/script.sh
