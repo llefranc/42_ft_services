@@ -19,6 +19,8 @@ spec:
   selector:
     matchLabels:
       app: influxdb
+  strategy:
+    type: Recreate
   replicas: 1
   template:
     metadata:

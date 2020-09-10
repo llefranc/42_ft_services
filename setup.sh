@@ -32,6 +32,8 @@ docker build -t grafana_img srcs/grafana/.
 printf "\e[0;32m[grafana image built]\e[0m\n\n"
 docker build -t telegraf_img srcs/telegraf/.
 printf "\e[0;32m[telegraf image built]\e[0m\n\n"
+docker build -t ftps_img srcs/ftps/.
+printf "\e[0;32m[ftps image built]\e[0m\n\n"
 
 # creating deployment / services / persistent volume claim
 kubectl apply -f srcs/telegraf/admin-pod.yaml
@@ -46,6 +48,7 @@ kubectl apply -f srcs/telegraf/telegraf.yaml
 kubectl apply -f srcs/grafana/grafana.yaml
 kubectl apply -f srcs/wordpress/wordpress.yaml
 kubectl apply -f srcs/nginx/nginx.yaml
+kubectl apply -f srcs/ftps/ftps.yaml
 printf "\e[0;32m[all services / deployments / persistent volume claim created]\e[0m\n\n"
 
 # enabling dashboard
