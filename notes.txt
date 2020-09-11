@@ -320,3 +320,6 @@ https://www.digitalocean.com/community/tutorials/how-to-set-up-vsftpd-for-a-user
 -------------------------------- LIVENESSPROBE ---------------------------------------------------
 a mettre dans les fichiers yaml, permet de restart les containers selon une condition (dans notre cas si pgrep
 trouve le nom du processus cherche pour savoir si celui ci est toujours en fonctionnment ou non)
+
+-------------------------------- MINIKUBE DANS LA VM ---------------------------------------------------
+https://www.notion.so/Ft_services-VM-852d4f9b0d9a42c1a2de921e4a2ac417
