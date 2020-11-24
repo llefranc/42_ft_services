@@ -2,7 +2,7 @@
 
 System administration and networking project
 
-![Alt text](https://github.com/lucaslefrancq/42-07_ft_services/blob/master/ft_services_example.png)
+![Alt text](https://github.com/lucaslefrancq/42-05_ft_services/blob/master/ft_services_example.png)
 
 ## About
 
