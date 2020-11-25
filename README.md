@@ -1,12 +1,12 @@
-# Ft_services (@42Paris)
+# ft_services (@42Paris)
 
 "System administration and networking project"
 
-![Alt text](https://github.com/lucaslefrancq/42-05_ft_services/blob/master/ft_services_example.png)
+![Alt text](https://github.com/lucaslefrancq/42_ft_services/blob/master/ft_services_example.png)
 
 ## About
 
-Ft_services is the 7th project of the mandatory part of the cursus.
+Ft_services is a project of the mandatory part of the cursus.
 It's about using kubernetes and docker to run a cluster with several services.
 We had to create our own dockerfiles on Alpine for each services, and then create
 a kubernetes-pod and a kubernetes-service for each service.
@@ -27,12 +27,12 @@ a kubernetes-pod and a kubernetes-service for each service.
 
 2. Download/Clone this repo
 
-        git clone https://github.com/lucaslefrancq/42-05_ft_services
+        git clone https://github.com/lucaslefrancq/42_ft_services.git
 
 2. `cd` into the root directory, and run `setup.sh`. This will start `minikube`, link docker to minikube, build all
 	the docker images and creates all the pods in the kubernetes cluster.
 
-        cd 42-05_ft_services
+        cd 42_ft_services
         ./setup.sh
 
 ## Sources
@@ -49,7 +49,7 @@ a kubernetes-pod and a kubernetes-service for each service.
 - [Using MetalLB as loadbalancer][13]
 - [Launching ft_services with VM (for 42 students during covid-19 pandemy)][14]
 
-[1]: https://github.com/lucaslefrancq/42-05_ft_services/blob/master/ft_services.en.subject.pdf
+[1]: https://github.com/lucaslefrancq/42_ft_services/blob/master/ft_services.en.subject.pdf
 [2]: https://docs.docker.com/get-docker/
 [3]: https://kubernetes.io/fr/docs/tasks/tools/install-minikube/
 [4]: https://www.youtube.com/watch?v=jPdIRX6q4jA&list=PLy7NrYWoggjwPggqtFsI_zMAwvG0SqYCb&ab_channel=TechWorldwithNana
