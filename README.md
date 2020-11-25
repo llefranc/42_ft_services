@@ -1,6 +1,6 @@
 # Ft_services (@42Paris)
 
-Grade : ![Alt text](https://github.com/lucaslefrancq/42-05_ft_services/blob/master/grade_100.png) - "System administration and networking project"
+Grade : ![Alt text](https://github.com/lucaslefrancq/42-05_ft_services/blob/master/grade_100.png =100x20) - "System administration and networking project"
 
 ![Alt text](https://github.com/lucaslefrancq/42-05_ft_services/blob/master/ft_services_example.png)
 
